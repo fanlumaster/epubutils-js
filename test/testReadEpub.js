@@ -1,13 +1,15 @@
-import { parseEpub } from "../src/readEpub.js";
+import { EpubParser } from "../src/ReadEpub.js";
 
 (async () => {
-  const epubFilePath = '/home/sonnycalcr/HDisk/Books/Test/沉默的大多数.epub';
-  const opfData = await parseEpub(epubFilePath);
-  const metadata = opfData['package']['metadata'][0];
-  const title = metadata['dc:title'][0];
-  const author = metadata['dc:creator'][0]._;
-  const publisher = metadata['dc:publisher'][0]
-  console.log('书名:', title);
-  console.log('作者:', author);
-  console.log('出版社:', publisher);
+  let epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/沉默的大多数.epub";
+  epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/沉重的翅膀.epub";
+  epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/背叛.epub";
+  const epubParser = new EpubParser(epubFilePath);
+  await epubParser.parseBasic();
+  console.log(epubParser.bookMetadata.title);
+  console.log(epubParser.bookMetadata.author);
+  console.log(epubParser.bookMetadata.language);
+  console.log(epubParser.bookMetadata.date);
+  console.log(epubParser.bookMetadata.publisher);
+  console.log(epubParser.bookMetadata.identifier);
 })();
