@@ -58,4 +58,77 @@ export class BookMetadata {
   }
 }
 
-export class BookContent {}
+class Item {
+  constructor(href, id, mediaType) {
+    this.href = href;
+    this.id = id;
+    this.mediaType = mediaType;
+  }
+
+  toString() {
+    return `id: ${this.id}, href: ${this.href}, mediaType: ${this.mediaType}`;
+  }
+}
+
+export class BookManifest {
+  constructor() {
+    this._items = [];
+  }
+
+  // getters and setters
+  get items() {
+    return this._items;
+  }
+  set items(value) {
+    this._items = value;
+  }
+
+  addItem(id, href, mediaType) {
+    this._items.push(new Item(id, href, mediaType));
+  }
+
+  printManifest() {
+    console.log("items:");
+    this._items.forEach((item, index) => {
+      console.log(`${index + 1}: ${item.toString()}`);
+    });
+  }
+}
+
+export class BookSpine {
+  constructor(toc) {
+    this._toc = toc; // may be ncx or nav
+    this._items = [];
+  }
+
+  // getters and setters
+  get toc() {
+    return this._toc;
+  }
+  set toc(value) {
+    this._toc = value;
+  }
+
+  get items() {
+    return this._items;
+  }
+  set items(value) {
+    if (Array.isArray(value)) {
+      this._items = value;
+    } else {
+      console.error("Items must be an array.");
+    }
+  }
+
+  addItem(itemRef) {
+    this._items.push(itemRef);
+  }
+
+  printSpine() {
+    console.log(`toc: ${this.toc}`);
+    console.log("items:");
+    this._items.forEach((item, index) => {
+      console.log(`${index + 1}: ${item}`);
+    });
+  }
+}
