@@ -2,6 +2,7 @@ import fs from "fs";
 import JSZip from "jszip";
 import { Parser } from "xml2js";
 import { BookManifest, BookMetadata, BookSpine } from "./book/BookData.js";
+import { getInnermostDirectory } from "./utils/commonUtils.js";
 
 export class EpubParser {
   constructor(filePath) {
@@ -146,6 +147,9 @@ export class EpubParser {
       itemrefs.forEach((itemref) => {
         this.bookSpine.addItem(idToHrefMap[itemref["idref"]]);
       });
+
+      // TODO: read all html files
+      const rootDir = getInnermostDirectory(rootFilePath);
     } catch (error) {
       console.log("Error parsing EPUB:", error);
       return null;

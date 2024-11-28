@@ -132,3 +132,7 @@ export class BookSpine {
     });
   }
 }
+
+// TODO: store all chapters paths and contents
+export class BookChapters {
+}
