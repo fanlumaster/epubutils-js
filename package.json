@@ -4,10 +4,11 @@
   "description": "Utils for parsing epub files.",
   "type": "module",
   "repository": "https://github.com/fanlumaster/epubutils",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "node src/readEpub.js",
-    "test": "node test/testReadEpub.js"
+    "build": "tsc",
+    "dev": "node dist/index.js",
+    "test": "node dist/test/testReadEpub.js"
   },
   "keywords": [
     "epub",
@@ -18,5 +19,11 @@
   "dependencies": {
     "jszip": "^3.10.1",
     "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/jszip": "^3.4.0",
+    "@types/node": "^22.10.1",
+    "@types/xml2js": "^0.4.14",
+    "typescript": "^5.7.2"
   }
 }
