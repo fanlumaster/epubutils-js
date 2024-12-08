@@ -1,12 +1,19 @@
 import { EpubParser } from "../src/ReadEpub.js";
 
 (async () => {
-  let epubFilePath: string = "/home/sonnycalcr/HDisk/Books/Test/沉默的大多数.epub";
+  let epubFilePath: string =
+    "/home/sonnycalcr/HDisk/Books/Test/沉默的大多数.epub";
   // epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/沉重的翅膀.epub";
   // epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/背叛.epub";
 
   const epubParser = new EpubParser(epubFilePath);
   await epubParser.parseBasic();
+
+  console.log("book file data(info): ");
+  if (epubParser.bookFileData) {
+    // ./ is the root dir of unzipped epub/zip file
+    console.log("./" + epubParser.bookFileData.contentRootDir);
+  }
 
   console.log("metadata:");
   if (epubParser.bookMetadata) {

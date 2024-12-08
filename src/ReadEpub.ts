@@ -1,7 +1,12 @@
 import fs from "fs";
 import JSZip from "jszip";
 import { Parser } from "xml2js";
-import { BookManifest, BookMetadata, BookSpine } from "./book/BookData.js";
+import {
+  BookFileData,
+  BookManifest,
+  BookMetadata,
+  BookSpine,
+} from "./book/BookData.js";
 import { getInnermostDirectory } from "./utils/commonUtils.js";
 
 export class EpubParser {
@@ -14,6 +19,7 @@ export class EpubParser {
   private _spine: any | null = null;
 
   // Class data extracted from raw data
+  private _bookFileData: BookFileData | null = null;
   private _bookMetadata: BookMetadata | null = null;
   private _bookManifest: BookManifest | null = null;
   private _bookSpine: BookSpine | null = null;
@@ -49,6 +55,13 @@ export class EpubParser {
   }
   set spine(value: any | null) {
     this._spine = value;
+  }
+
+  get bookFileData(): BookFileData | null {
+    return this._bookFileData;
+  }
+  set bookFileData(value: BookFileData | null) {
+    this._bookFileData = value;
   }
 
   get bookMetadata(): BookMetadata | null {
@@ -94,6 +107,9 @@ export class EpubParser {
       const containerData: any = await parser.parseStringPromise(containerXml);
       const rootFilePath =
         containerData.container.rootfiles[0].rootfile[0]["full-path"][0];
+
+      const contentRootDir = getInnermostDirectory(rootFilePath);
+      this.bookFileData = new BookFileData(contentRootDir);
 
       // Read OPF file
       const opfContent = await content.file(rootFilePath)!.async("string");
@@ -156,7 +172,6 @@ export class EpubParser {
       });
 
       // TODO: Read all HTML files
-      const rootDir = getInnermostDirectory(rootFilePath);
     } catch (error) {
       console.error("Error parsing EPUB:", error);
       return null;

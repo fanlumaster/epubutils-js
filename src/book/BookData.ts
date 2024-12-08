@@ -1,3 +1,19 @@
+export class BookFileData {
+  private _contentRootDir: string = "";
+
+  constructor(contentRootDir: string) {
+    this.contentRootDir = contentRootDir;
+  }
+
+  // getters and setters
+  get contentRootDir(): string {
+    return this._contentRootDir;
+  }
+  set contentRootDir(value: string) {
+    this._contentRootDir = value;
+  }
+}
+
 export class BookMetadata {
   private _title: string = "";
   private _author: string = "";
