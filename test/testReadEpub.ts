@@ -1,10 +1,35 @@
+import * as os from "os";
 import { EpubParser } from "../src/ReadEpub.js";
 
+function getOperatingSystem(): string {
+  const platform = os.platform();
+  switch (platform) {
+    case "win32":
+      return "Windows";
+    case "darwin":
+      return "MacOS";
+    case "linux":
+      return "Linux";
+    case "android":
+      return "Android";
+    case "freebsd":
+      return "FreeBSD";
+    case "sunos":
+      return "Solaris";
+    default:
+      return "Unknown OS";
+  }
+}
+
 (async () => {
+  // default os is linux
+  let epubSystemPath = "/home/sonnycalcr/";
+  // if os is osx
+  if (getOperatingSystem() === "MacOS") epubSystemPath = "/Users/sonnycalcr/";
   let epubFilePath: string =
-    "/home/sonnycalcr/HDisk/Books/Test/沉默的大多数.epub";
-  // epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/沉重的翅膀.epub";
-  // epubFilePath = "/home/sonnycalcr/HDisk/Books/Test/背叛.epub";
+    epubSystemPath + "HDisk/Books/Test/沉默的大多数.epub";
+  // epubFilePath = epubSystemPath + "HDisk/Books/Test/沉重的翅膀.epub";
+  // epubFilePath = epubSystemPath + "HDisk/Books/Test/背叛.epub";
 
   const epubParser = new EpubParser(epubFilePath);
   await epubParser.parseBasic();
