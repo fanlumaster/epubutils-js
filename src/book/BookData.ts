@@ -177,5 +177,29 @@ export class BookSpine {
 
 // TODO: store all chapters paths and contents
 export class BookChapters {
-  // Implementation for BookChapters can be added here
+  private _chapters: string[]; // explicit content of each item in book spine
+
+  constructor() {
+    this._chapters = [];
+  }
+
+  get chapters(): string[] {
+    return this._chapters;
+  }
+
+  set chapters(value: string[]) {
+    if (Array.isArray(value)) {
+      this._chapters = value;
+    } else {
+      console.error("Chapters must be an array.");
+    }
+  }
+
+  addItem(singleChapterContent: string): void {
+    this._chapters.push(singleChapterContent);
+  }
+
+  getChapter(index: number): string {
+    return this._chapters[index];
+  }
 }

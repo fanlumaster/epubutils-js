@@ -38,6 +38,7 @@ function getOperatingSystem(): string {
   if (epubParser.bookFileData) {
     // ./ is the root dir of unzipped epub/zip file
     console.log("./" + epubParser.bookFileData.contentRootDir);
+    console.log("pure root dir: " + epubParser.bookFileData.contentRootDir);
   }
 
   console.log("metadata:");
@@ -66,5 +67,13 @@ function getOperatingSystem(): string {
     epubParser.bookSpine.printSpine();
   } else {
     console.log("No spine found.");
+  }
+
+  console.log("============================================");
+  console.log("chapters contents:");
+  if (epubParser.bookChapters) {
+    console.log(epubParser.bookChapters.getChapter(8));
+  } else {
+    console.log("No chapters found.");
   }
 })();

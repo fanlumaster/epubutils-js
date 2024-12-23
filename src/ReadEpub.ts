@@ -6,6 +6,7 @@ import {
   BookManifest,
   BookMetadata,
   BookSpine,
+  BookChapters,
 } from "./book/BookData.js";
 import { getInnermostDirectory } from "./utils/commonUtils.js";
 
@@ -23,6 +24,7 @@ export class EpubParser {
   private _bookMetadata: BookMetadata | null = null;
   private _bookManifest: BookManifest | null = null;
   private _bookSpine: BookSpine | null = null;
+  private _bookChapters: BookChapters | null = null;
 
   constructor(filePath: string) {
     this.filePath = filePath;
@@ -83,6 +85,13 @@ export class EpubParser {
   }
   set bookSpine(value: BookSpine | null) {
     this._bookSpine = value;
+  }
+
+  get bookChapters(): BookChapters | null {
+    return this._bookChapters;
+  }
+  set bookChapters(value: BookChapters | null) {
+    this._bookChapters = value;
   }
 
   async parseBasic(): Promise<void | null> {
@@ -171,7 +180,14 @@ export class EpubParser {
         this.bookSpine!.addItem(idToHrefMap[itemref["idref"]]);
       });
 
-      // TODO: Read all HTML files
+      // read all html files(read and save all chapter contents)
+      this.bookChapters = new BookChapters();
+      for (const item of this.bookSpine.items) {
+        const curText = await content
+          .file(this.bookFileData?.contentRootDir + "/" + item)!
+          .async("string");
+        this.bookChapters?.addItem(curText);
+      }
     } catch (error) {
       console.error("Error parsing EPUB:", error);
       return null;
